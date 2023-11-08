@@ -51,9 +51,7 @@ export default function Filters() {
   };
 
   const handleBreedChange = (event) => {
-    const {
-      target: { value },
-    } = event;
+    const value = event.target.value;
     dispatch(setBreedId(typeof value === "string" ? value.split(",") : value));
   };
 
@@ -89,11 +87,16 @@ export default function Filters() {
             value={breedId}
             onChange={handleBreedChange}
             input={<OutlinedInput label="Breeds" />}
-            renderValue={(selected) => selected.join(", ")}
+            renderValue={(selected) =>
+              allBreeds
+                .filter((breed) => selected.includes(breed.id))
+                .map((breed) => breed.name)
+                .join(", ")
+            }
             MenuProps={MenuProps}
           >
             {allBreeds.map((breed) => (
-              <MenuItem key={breed.id} value={breed.name}>
+              <MenuItem key={breed.id} value={breed.id}>
                 <Checkbox checked={breedId.indexOf(breed.id) > -1} />
                 <ListItemText primary={breed.name} />
               </MenuItem>
