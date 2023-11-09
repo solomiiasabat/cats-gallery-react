@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getImages, getAllBreeds } from "./operations";
+import { getImages, getAllBreeds, getFilteredImages } from "./operations";
 
 const initialState = {
   images: [],
@@ -34,7 +34,7 @@ const picturesSlice = createSlice({
         state.isLoading = false;
       })
       .addCase(getImages.rejected, (state, { payload }) => {
-        isLoading = false;
+        state.isLoading = false;
         state.error = payload;
       })
       .addCase(getAllBreeds.pending, (state) => {
@@ -46,7 +46,19 @@ const picturesSlice = createSlice({
         state.isLoading = false;
       })
       .addCase(getAllBreeds.rejected, (state, { payload }) => {
-        isLoading = false;
+        state.isLoading = false;
+        state.error = payload;
+      })
+      .addCase(getFilteredImages.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(getFilteredImages.fulfilled, (state, { payload }) => {
+        state.images = payload;
+        state.isLoading = false;
+      })
+      .addCase(getFilteredImages.rejected, (state, { payload }) => {
+        state.isLoading = false;
         state.error = payload;
       });
   },

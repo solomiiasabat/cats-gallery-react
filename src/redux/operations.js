@@ -22,3 +22,14 @@ export const getAllBreeds = createAsyncThunk(
     }
   }
 );
+
+export const getFilteredImages = createAsyncThunk(
+  "images/fetchFilteredImages",
+  async ({ limit, breedId }, { rejectWithValue }) => {
+    try {
+      return await api.fetchFilteredImages(limit, breedId);
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);

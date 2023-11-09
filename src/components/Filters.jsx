@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import MenuItem from "@mui/material/MenuItem";
@@ -11,7 +10,11 @@ import Select from "@mui/material/Select";
 import ListItemText from "@mui/material/ListItemText";
 import Checkbox from "@mui/material/Checkbox";
 
-import { getImages, getAllBreeds } from "../redux/operations";
+import {
+  getImages,
+  getAllBreeds,
+  getFilteredImages,
+} from "../redux/operations";
 import { setLimit, setBreedId } from "../redux/slice";
 import {
   selectLimit,
@@ -40,11 +43,15 @@ export default function Filters() {
 
   useEffect(() => {
     dispatch(getImages(limit));
-  }, [limit, dispatch]);
+  }, []);
 
   useEffect(() => {
     dispatch(getAllBreeds());
   }, []);
+
+  useEffect(() => {
+    dispatch(getFilteredImages({ limit, breedId }));
+  }, [limit, breedId, dispatch]);
 
   const handleLimitChange = (event) => {
     dispatch(setLimit(event.target.value));
@@ -57,8 +64,8 @@ export default function Filters() {
 
   return (
     <>
-      <Box sx={{ maxWidth: 200, marginTop: 5 }}>
-        <FormControl fullWidth>
+      <div>
+        <FormControl l sx={{ m: 1, width: 300 }}>
           <InputLabel id="demo-simple-select-label">Limit</InputLabel>
           <Select
             labelId="demo-simple-select-label"
@@ -76,7 +83,7 @@ export default function Filters() {
             })}
           </Select>
         </FormControl>
-      </Box>
+      </div>
       <div>
         <FormControl sx={{ m: 1, width: 300 }}>
           <InputLabel id="demo-multiple-checkbox-label">Breeds</InputLabel>
