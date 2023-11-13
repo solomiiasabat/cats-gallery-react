@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -15,11 +15,12 @@ import {
   getAllBreeds,
   getFilteredImages,
 } from "../redux/operations";
-import { setLimit, setBreedId } from "../redux/slice";
+import { setLimit, setBreedId, setHasBreed } from "../redux/slice";
 import {
   selectLimit,
   selectAllBreeds,
   selectBreedId,
+  selectHasBreed,
 } from "../redux/selectors";
 
 import { limitOptions } from "../utils/limit-options";
@@ -29,6 +30,9 @@ export default function Filters() {
   const limit = useSelector(selectLimit);
   const allBreeds = useSelector(selectAllBreeds);
   const breedId = useSelector(selectBreedId);
+  const hasBreed = useSelector(selectHasBreed);
+  // Track initial mount
+  const isInitialMount = useRef(true);
 
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
@@ -42,16 +46,22 @@ export default function Filters() {
   };
 
   useEffect(() => {
-    dispatch(getImages(limit));
-  }, []);
-
-  useEffect(() => {
     dispatch(getAllBreeds());
   }, []);
 
   useEffect(() => {
-    dispatch(getFilteredImages({ limit, breedId }));
-  }, [limit, breedId, dispatch]);
+    if (limit !== undefined && hasBreed !== undefined) {
+      dispatch(getImages({ limit, hasBreed }));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+    } else {
+      dispatch(getFilteredImages({ limit, breedId, hasBreed }));
+    }
+  }, [limit, breedId, hasBreed, dispatch]);
 
   const handleLimitChange = (event) => {
     dispatch(setLimit(event.target.value));
@@ -59,13 +69,23 @@ export default function Filters() {
 
   const handleBreedChange = (event) => {
     const value = event.target.value;
-    dispatch(setBreedId(typeof value === "string" ? value.split(",") : value));
+
+    if (value.includes("all")) {
+      dispatch(setBreedId([]));
+      dispatch(setHasBreed(true));
+    } else if (value.includes("withoutBreed")) {
+      dispatch(setBreedId([]));
+      dispatch(setHasBreed(false));
+    } else {
+      dispatch(setBreedId(value));
+      dispatch(setHasBreed(true));
+    }
   };
 
   return (
     <>
       <div>
-        <FormControl l sx={{ m: 1, width: 300 }}>
+        <FormControl sx={{ m: 1, width: 300 }}>
           <InputLabel id="demo-simple-select-label">Limit</InputLabel>
           <Select
             labelId="demo-simple-select-label"
@@ -102,6 +122,15 @@ export default function Filters() {
             }
             MenuProps={MenuProps}
           >
+            <MenuItem value="withoutBreed">
+              <Checkbox checked={!hasBreed} />
+              <ListItemText primary="Without Breed" />
+            </MenuItem>
+            <MenuItem value="all">
+              <Checkbox checked={hasBreed && breedId.length === 0} />
+              <ListItemText primary="All" />
+            </MenuItem>
+
             {allBreeds.map((breed) => (
               <MenuItem key={breed.id} value={breed.id}>
                 <Checkbox checked={breedId.indexOf(breed.id) > -1} />

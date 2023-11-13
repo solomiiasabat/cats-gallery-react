@@ -7,6 +7,7 @@ const initialState = {
   filters: {
     limit: 10,
     breedId: [],
+    hasBreed: true,
   },
   isLoading: false,
   error: null,
@@ -21,6 +22,9 @@ const picturesSlice = createSlice({
     },
     setBreedId: (state, action) => {
       state.filters.breedId = action.payload;
+    },
+    setHasBreed: (state, action) => {
+      state.filters.hasBreed = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -64,6 +68,6 @@ const picturesSlice = createSlice({
   },
 });
 
-export const { setLimit, setBreedId } = picturesSlice.actions;
+export const { setLimit, setBreedId, setHasBreed } = picturesSlice.actions;
 
 export default picturesSlice.reducer;

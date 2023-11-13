@@ -3,9 +3,13 @@ import * as api from "../utils/api";
 
 export const getImages = createAsyncThunk(
   "images/fetchImages",
-  async (limit, { rejectWithValue }) => {
+  async ({ limit, hasBreed }, { rejectWithValue }) => {
     try {
-      return await api.fetchImages(limit);
+      const filter = {
+        limit: limit,
+        hasBreed: hasBreed,
+      };
+      return await api.fetchImages(filter);
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -25,9 +29,14 @@ export const getAllBreeds = createAsyncThunk(
 
 export const getFilteredImages = createAsyncThunk(
   "images/fetchFilteredImages",
-  async ({ limit, breedId }, { rejectWithValue }) => {
+  async ({ limit, breedId, hasBreed }, { rejectWithValue }) => {
     try {
-      return await api.fetchFilteredImages(limit, breedId);
+      const filter = {
+        limit: limit,
+        breedId: breedId,
+        hasBreed: hasBreed,
+      };
+      return await api.fetchFilteredImages(filter);
     } catch (error) {
       return rejectWithValue(error.message);
     }

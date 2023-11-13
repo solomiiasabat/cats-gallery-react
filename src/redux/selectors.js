@@ -7,3 +7,5 @@ export const selectLimit = (state) => state.filters.limit;
 export const selectAllBreeds = (state) => state.allBreeds;
 
 export const selectBreedId = (state) => state.filters.breedId;
+
+export const selectHasBreed = (state) => state.filters.hasBreed;
