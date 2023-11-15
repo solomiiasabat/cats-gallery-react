@@ -1,40 +1,43 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
-import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Unstable_Grid2";
-// import { Item } from "../utils/grid-item";
 
-import { selectImages } from "../redux/selectors";
-import { selectIsLoading } from "../redux/selectors";
+import {
+  selectCurrentPageImages,
+  selectNumsOfPages,
+  selectIsLoading,
+} from "../redux/selectors";
 
-// const Item = styled(Paper)(({ theme }) => ({
-// backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-// ...theme.typography.body2,
-// padding: theme.spacing(1),
-// textAlign: "center",
-// color: theme.palette.text.secondary,
-// }));
+import { setCurrentPage } from "../redux/slice";
+
+import Loading from "./Loading";
+import AppPagination from "./AppPagination";
 
 export default function CatImages() {
-  const images = useSelector(selectImages);
   const loading = useSelector(selectIsLoading);
+  const currentPageImages = useSelector(selectCurrentPageImages);
+  const numsOfPages = useSelector(selectNumsOfPages);
+  const dispatch = useDispatch();
+
   return (
     <>
-      {loading && <p>Loading...</p>}
-      <Box sx={{ flexGrow: 1 }}>
-        <Grid container spacing={1}>
-          {images.map((img) => (
-            <Grid xs={2} key={img.id}>
-              {/* <Item> */}
-              <img src={img.url} width={185} height={170} />
-              {/* </Item> */}
+      {loading && <Loading />}
+      <Box sx={{ flexGrow: 2 }}>
+        <Grid container spacing={2}>
+          {currentPageImages.map((img) => (
+            <Grid xs={12 / 5} key={img.id}>
+              <img src={img.url} width={200} height={175} />
             </Grid>
           ))}
         </Grid>
       </Box>
+
+      <AppPagination
+        setCurrentPage={(page) => dispatch(setCurrentPage(page))}
+        numsOfPages={numsOfPages}
+      />
     </>
   );
 }

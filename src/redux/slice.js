@@ -2,7 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 import { getImages, getAllBreeds, getFilteredImages } from "./operations";
 
 const initialState = {
-  images: [],
+  images: {
+    numsOfPages: 0,
+    imagesPerPage: [],
+    currentPage: 1,
+    pageSize: 5,
+  },
   allBreeds: [],
   filters: {
     limit: 10,
@@ -19,12 +24,18 @@ const picturesSlice = createSlice({
   reducers: {
     setLimit: (state, action) => {
       state.filters.limit = action.payload;
+      state.images.currentPage = 1;
     },
     setBreedId: (state, action) => {
       state.filters.breedId = action.payload;
+      state.images.currentPage = 1;
     },
     setHasBreed: (state, action) => {
       state.filters.hasBreed = action.payload;
+      state.images.currentPage = 1;
+    },
+    setCurrentPage: (state, action) => {
+      state.images.currentPage = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -34,7 +45,8 @@ const picturesSlice = createSlice({
         state.error = null;
       })
       .addCase(getImages.fulfilled, (state, { payload }) => {
-        state.images = payload;
+        state.images.count = payload.length;
+        state.images.imagesPerPage = payload;
         state.isLoading = false;
       })
       .addCase(getImages.rejected, (state, { payload }) => {
@@ -58,7 +70,9 @@ const picturesSlice = createSlice({
         state.error = null;
       })
       .addCase(getFilteredImages.fulfilled, (state, { payload }) => {
-        state.images = payload;
+        state.images.count = payload.length;
+        state.images.imagesPerPage = payload;
+        // state.images.currentPage = 1;
         state.isLoading = false;
       })
       .addCase(getFilteredImages.rejected, (state, { payload }) => {
@@ -68,6 +82,7 @@ const picturesSlice = createSlice({
   },
 });
 
-export const { setLimit, setBreedId, setHasBreed } = picturesSlice.actions;
+export const { setLimit, setBreedId, setHasBreed, setCurrentPage } =
+  picturesSlice.actions;
 
 export default picturesSlice.reducer;

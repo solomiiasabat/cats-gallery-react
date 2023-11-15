@@ -31,6 +31,7 @@ export default function Filters() {
   const allBreeds = useSelector(selectAllBreeds);
   const breedId = useSelector(selectBreedId);
   const hasBreed = useSelector(selectHasBreed);
+
   // Track initial mount
   const isInitialMount = useRef(true);
 
@@ -107,6 +108,7 @@ export default function Filters() {
       <div>
         <FormControl sx={{ m: 1, width: 300 }}>
           <InputLabel id="demo-multiple-checkbox-label">Breeds</InputLabel>
+
           <Select
             labelId="demo-multiple-checkbox-label"
             id="demo-multiple-checkbox"
