@@ -15,6 +15,8 @@ export default function AppPagination({ setCurrentPage, numsOfPages }) {
     setCurrentPage(page);
   };
 
+  console.log("numsOfPages:", numsOfPages, "pageSize:", pageSize);
+
   return (
     <Box
       display="flex"
@@ -24,7 +26,7 @@ export default function AppPagination({ setCurrentPage, numsOfPages }) {
     >
       <Stack spacing={2}>
         <Pagination
-          count={numsOfPages / pageSize}
+          count={Math.ceil(numsOfPages / pageSize)}
           color="primary"
           onChange={handlePageChange}
           page={currentPage}
