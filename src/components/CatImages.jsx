@@ -2,7 +2,9 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import Box from "@mui/material/Box";
-import Grid from "@mui/material/Unstable_Grid2";
+import ImageList from "@mui/material/ImageList";
+import ImageListItem from "@mui/material/ImageListItem";
+import ImageListItemBar from "@mui/material/ImageListItemBar";
 
 import {
   selectCurrentPageImages,
@@ -20,24 +22,41 @@ export default function CatImages() {
   const currentPageImages = useSelector(selectCurrentPageImages);
   const numsOfPages = useSelector(selectNumsOfPages);
   const dispatch = useDispatch();
+  console.log(currentPageImages);
 
   return (
     <>
       {loading && <Loading />}
-      <Box sx={{ flexGrow: 2 }}>
-        <Grid container spacing={2}>
+      <Box sx={{ width: "100%", height: 100, zIndex: -1 }}>
+        <ImageList
+          sx={{ width: "100%", height: 340, overflow: "hidden" }}
+          variant="woven"
+          cols={5}
+          gap={8}
+        >
           {currentPageImages.map((img) => (
-            <Grid xs={12 / 5} key={img.id}>
-              <img src={img.url} width={200} height={175} />
-            </Grid>
+            <ImageListItem key={img.id}>
+              <img
+                srcSet={`${img.url}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                src={`${img.url}?w=248&fit=crop&auto=format`}
+                alt={img.id}
+                loading="lazy"
+              />
+              <ImageListItemBar
+                position="top"
+                title={img.breeds[0]?.name || "Unknown Breed"}
+                sx={{ textAlign: "center" }}
+              />
+            </ImageListItem>
           ))}
-        </Grid>
+        </ImageList>
       </Box>
-
-      <AppPagination
-        setCurrentPage={(page) => dispatch(setCurrentPage(page))}
-        numsOfPages={numsOfPages}
-      />
+      <Box sx={{ width: "100%" }}>
+        <AppPagination
+          setCurrentPage={(page) => dispatch(setCurrentPage(page))}
+          numsOfPages={numsOfPages}
+        />
+      </Box>
     </>
   );
 }

@@ -13,6 +13,7 @@ const cardStyle = {
   bgcolor: "#262526",
   boxShadow: 24,
   p: 4,
+  zIndex: 1,
 };
 
 const textStyle = {

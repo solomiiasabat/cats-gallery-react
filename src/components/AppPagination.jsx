@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import Box from "@mui/material/Box";
@@ -22,7 +22,7 @@ export default function AppPagination({ setCurrentPage, numsOfPages }) {
       display="flex"
       justifyContent="center"
       alignItems="center"
-      sx={{ margin: "20px 0px" }}
+      sx={{ margin: "250px 0px 0px 0px" }}
     >
       <Stack spacing={2}>
         <Pagination
