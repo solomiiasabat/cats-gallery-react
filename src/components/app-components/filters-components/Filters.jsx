@@ -2,28 +2,33 @@ import React, { useEffect, useRef } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import InputLabel from "@mui/material/InputLabel";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import ListItemText from "@mui/material/ListItemText";
-import Checkbox from "@mui/material/Checkbox";
+import {
+  InputLabel,
+  OutlinedInput,
+  MenuItem,
+  FormControl,
+  Select,
+  ListItemText,
+  Checkbox,
+} from "@mui/material";
 
 import {
   getImages,
   getAllBreeds,
   getFilteredImages,
-} from "../redux/operations";
-import { setLimit, setBreedId, setHasBreed } from "../redux/slice";
+} from "../../../redux/operations";
+
+import { setLimit, setBreedId, setHasBreed } from "../../../redux/slice";
+
 import {
   selectLimit,
   selectAllBreeds,
   selectBreedId,
   selectHasBreed,
-} from "../redux/selectors";
+} from "../../../redux/selectors";
 
-import { limitOptions } from "../utils/limit-options";
+import { MenuProps } from "./helpers/MenuProps";
+import { limitOptions } from "../../../utils/limit-options";
 
 export default function Filters() {
   const dispatch = useDispatch();
@@ -35,27 +40,15 @@ export default function Filters() {
   // Track initial mount
   const isInitialMount = useRef(true);
 
-  const ITEM_HEIGHT = 48;
-  const ITEM_PADDING_TOP = 8;
-  const MenuProps = {
-    PaperProps: {
-      style: {
-        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-        width: 250,
-      },
-    },
-  };
-
+  // Get all breeds and fetch images with default limit on initial mount
   useEffect(() => {
     dispatch(getAllBreeds());
-  }, []);
-
-  useEffect(() => {
     if (limit !== undefined && hasBreed !== undefined) {
       dispatch(getImages({ limit, hasBreed }));
     }
   }, []);
 
+  // Fetch new images on the basis of changes in filters
   useEffect(() => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
@@ -105,6 +98,7 @@ export default function Filters() {
           </Select>
         </FormControl>
       </div>
+
       <div>
         <FormControl sx={{ m: 1, width: 300 }}>
           <InputLabel id="demo-multiple-checkbox-label">Breeds</InputLabel>

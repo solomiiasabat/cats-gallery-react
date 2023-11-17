@@ -1,5 +1,5 @@
-import Filters from "./Filters";
-import CatImages from "./CatImages";
+import Filters from "./app-components/filters-components/Filters";
+import CatImages from "./app-components/images-components/CatImages";
 
 function App() {
   return (

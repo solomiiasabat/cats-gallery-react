@@ -1,28 +1,25 @@
 import React from "react";
+
 import { useSelector, useDispatch } from "react-redux";
 
-import Box from "@mui/material/Box";
-import ImageList from "@mui/material/ImageList";
-import ImageListItem from "@mui/material/ImageListItem";
-import ImageListItemBar from "@mui/material/ImageListItemBar";
+import { Box, ImageList, ImageListItem, ImageListItemBar } from "@mui/material";
 
 import {
   selectCurrentPageImages,
   selectNumsOfPages,
   selectIsLoading,
-} from "../redux/selectors";
+} from "../../../redux/selectors";
 
-import { setCurrentPage } from "../redux/slice";
+import { setCurrentPage } from "../../../redux/slice";
 
-import Loading from "./Loading";
-import AppPagination from "./AppPagination";
+import Loading from "./components/Loading";
+import AppPagination from "./components/AppPagination";
 
 export default function CatImages() {
   const loading = useSelector(selectIsLoading);
   const currentPageImages = useSelector(selectCurrentPageImages);
   const numsOfPages = useSelector(selectNumsOfPages);
   const dispatch = useDispatch();
-  console.log(currentPageImages);
 
   return (
     <>

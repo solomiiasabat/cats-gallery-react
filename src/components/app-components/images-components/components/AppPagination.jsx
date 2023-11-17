@@ -1,11 +1,10 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
 
-import Box from "@mui/material/Box";
-import Pagination from "@mui/material/Pagination";
-import Stack from "@mui/material/Stack";
+import { useSelector } from "react-redux";
 
-import { selectPageSize, selectCurrentPage } from "../redux/selectors";
+import { Box, Pagination, Stack } from "@mui/material";
+
+import { selectPageSize, selectCurrentPage } from "../../../../redux/selectors";
 
 export default function AppPagination({ setCurrentPage, numsOfPages }) {
   const pageSize = useSelector(selectPageSize);
@@ -14,8 +13,6 @@ export default function AppPagination({ setCurrentPage, numsOfPages }) {
   const handlePageChange = (event, page) => {
     setCurrentPage(page);
   };
-
-  console.log("numsOfPages:", numsOfPages, "pageSize:", pageSize);
 
   return (
     <Box
