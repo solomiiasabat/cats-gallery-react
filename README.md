@@ -1,8 +1,8 @@
-# React + Vite
+# Cats Gallery
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+##### An application where you can find pictures of cats. By default you get 10 images of the random cats. But you can filter them by breed (or choose cats without breed) and by images limit. List of breeds provides multiple selection. The app is built on the basis of the [https://thecatapi.com/](https://thecatapi.com/).
 
-Currently, two official plugins are available:
+## Run the project
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1. Install the project's base dependencies with the `npm install` command.
+2. Start development mode by running the `npm run dev` command.
